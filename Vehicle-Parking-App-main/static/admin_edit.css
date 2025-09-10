@@ -1,0 +1,121 @@
+body {
+    background: linear-gradient(to top right, #ff6b6b, #feca57);
+    min-height: 100vh;
+    font-family: 'Lato', sans-serif;
+}
+
+.navbar {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: 600;
+    color: #2d3436;
+}
+
+.nav-link {
+    color: #2d3436;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #e17055;
+}
+
+.add-lot-container {
+    background: #34495e;
+    border-radius: 15px;
+    padding: 2.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    max-width: 450px;
+    margin: 0 auto;
+}
+
+.add-lot-title {
+    color: #feca57;
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.form-label {
+    color: #dfe6e9;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+    border: 1px solid #4a6670;
+    border-radius: 10px;
+    padding: 0.8rem;
+    background: #2c3e50;
+    color: #dfe6e9;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #feca57;
+    box-shadow: 0 0 8px rgba(254, 202, 87, 0.3);
+    background: #2c3e50;
+    color: #dfe6e9;
+}
+
+.form-control::placeholder {
+    color: #95a5a6;
+}
+
+.add-btn {
+    background-color: #00b894;
+    border: none;
+    padding: 0.8rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 10px;
+    width: 100%;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.add-btn:hover {
+    background-color: #009b77;
+    transform: translateY(-2px);
+}
+
+.cancel-btn {
+    background-color: #636e72;
+    border: none;
+    padding: 0.8rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 10px;
+    width: 100%;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    color: #dfe6e9;
+    text-decoration: none;
+    text-align: center;
+}
+
+.cancel-btn:hover {
+    background-color: #4a5568;
+    transform: translateY(-2px);
+    color: #dfe6e9;
+}
+
+@media (max-width: 576px) {
+    .add-lot-container {
+        padding: 2rem;
+        margin: 1rem;
+    }
+
+    .add-lot-title {
+        font-size: 1.6rem;
+    }
+
+    .add-btn,
+    .cancel-btn {
+        padding: 0.7rem;
+        font-size: 0.95rem;
+    }
+}

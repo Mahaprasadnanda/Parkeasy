@@ -1,0 +1,59 @@
+        body {
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Helvetica', sans-serif;
+        }
+        .hero-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            max-width: 550px;
+            text-align: center;
+        }
+        .hero-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 1rem;
+        }
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: #666;
+            margin-bottom: 2.5rem;
+        }
+        .action-btn {
+            padding: 0.8rem 2.5rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            border-radius: 30px;
+            background-color: #007bff;
+            border: none;
+            transition: background-color 0.4s ease, box-shadow 0.4s ease;
+        }
+        .action-btn:hover {
+            background-color: #0056b3;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .parking-icon {
+            font-size: 3.5rem;
+            color: #4facfe;
+            margin-bottom: 1.5rem;
+        }
+        @media (max-width: 576px) {
+            .hero-container {
+                margin: 1.5rem;
+                padding: 1.8rem;
+            }
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            .action-btn {
+                font-size: 1.1rem;
+                padding: 0.6rem 2rem;
+            }
+        }
+        

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkEasy - User Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/user_dash.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <span class="navbar-brand">Welcome User</span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="navbar-nav ms-auto">
+                    <a class="nav-link active" href="{{ url_for('controllers.user_dashboard') }}">Home</a>
+                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#summaryModal">Summary</a>
+                                                    <a class="nav-link" href="{{ url_for('controllers.logout') }}">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Summary Modal -->
+    <div class="modal fade" id="summaryModal" tabindex="-1" aria-labelledby="summaryModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="summaryModalLabel">Your Parking Summary</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <canvas id="userSummaryBarChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Chart.js for summary -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      const userSummaryLabels = {{ user_summary_labels|default([])|tojson }};
+      const userSummaryData = {{ user_summary_data|default([])|tojson }};
+      new Chart(document.getElementById('userSummaryBarChart'), {
+        type: 'bar',
+        data: {
+          labels: userSummaryLabels,
+          datasets: [{
+            label: 'Total Parkings',
+            data: userSummaryData,
+            backgroundColor: '#4e73df',
+          }]
+        },
+        options: { responsive: true, plugins: { legend: { display: false } } }
+      });
+    </script>
+
+    <!-- Search Form -->
+    <div class="container mt-4">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Search Parking Lots</h5>
+            </div>
+            <div class="card-body">
+                <form method="GET" action="{{ url_for('controllers.user_dashboard') }}">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="search" placeholder="Search by location name or pincode" value="{{ search_query }}">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <!-- Search Results Section -->
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Available Parking Lots</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if search_query %}
+                            <p class="text-muted">Search results for: "{{ search_query }}"</p>
+                            
+                            {% if lots %}
+                                {% for lot in lots %}
+                                <div class="row mb-3 border-bottom pb-3">
+                                    <div class="col-md-3">
+                                        <strong>Lot #{{ lot.id }}</strong><br>
+                                        <small class="text-muted">{{ lot.prime_location }}</small>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <strong>Complete Address:</strong><br>
+                                        <small>{{ lot.address }}, {{ lot.pincode }}</small>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <strong>Available:</strong><br>
+                                        <span class="badge bg-success">{{ lot_spots[lot.id]['available'] }}/{{ lot_spots[lot.id]['total'] }}</span>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <strong>Price:</strong><br>
+                                        <small>₹{{ lot.price_per_hour }}/hr</small>
+                                    </div>
+                                    <div class="col-md-1">
+                                        {% if lot_spots[lot.id]['available'] > 0 %}
+                                            <a href="{{ url_for('controllers.book_parking', lot_id=lot.id) }}" class="btn btn-primary btn-sm">Book</a>
+                                        {% else %}
+                                            <span class="badge bg-danger">Full</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                                <p class="text-muted">No parking lots found for "{{ search_query }}".</p>
+                            {% endif %}
+                        {% else %}
+                            <p class="text-muted">Enter a location name or pincode above to search for parking lots.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Parking History -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Recent Parking History</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if reservations %}
+                            {% for res in reservations %}
+                            <div class="border-bottom pb-2 mb-2">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div>
+                                                <strong>
+                                                    {% set lot = all_lots|selectattr('id', 'equalto', res.lot_id)|first %}
+                                                    {{ lot.prime_location if lot else 'Unknown Location' }}
+                                                </strong><br>
+                                                <small class="text-muted">
+                                                    {% set lot = all_lots|selectattr('id', 'equalto', res.lot_id)|first %}
+                                                    {% if lot %}
+                                                        {{ lot.address }}, {{ lot.pincode }}
+                                                    {% endif %}
+                                                </small><br>
+                                                <small class="text-muted">Vehicle: {{ res.vehicle_number or 'N/A' }}</small><br>
+                                                <small class="text-muted">
+                                                    Booked: {{ res.parking_time or 'N/A' }}
+                                                    {% if res.park_out_time %}
+                                                        <br>Parked Out: {{ res.park_out_time }}
+                                                    {% endif %}
+                                                    {% if res.leaving_time %}
+                                                        <br>Released: {{ res.leaving_time }}
+                                                    {% endif %}
+                                                </small>
+                                            </div>
+                                            <div>
+                                                {% if res.leaving_time and res.leaving_time != '' and res.leaving_time != 'None' and res.leaving_time != None %}
+                                                    <span class="badge bg-secondary">Completed</span>
+                                                {% elif res.park_out_time and res.park_out_time != '' and res.park_out_time != 'None' and res.park_out_time != None %}
+                                                    <a href="{{ url_for('controllers.release_parking', res_id=res.id) }}" class="btn btn-success btn-sm">Release</a>
+                                                {% else %}
+                                                    <a href="{{ url_for('controllers.park_out', res_id=res.id) }}" class="btn btn-warning btn-sm">Park Out</a>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- DEBUG: leaving_time for res.id {{ res.id }} is {{ res.leaving_time }} -->
+                            <!-- DEBUG: park_out_time for res.id {{ res.id }} is {{ res.park_out_time }} -->
+                            <!-- DEBUG: Status check: leaving_time exists = {{ res.leaving_time is not none and res.leaving_time != '' }} -->
+                            <!-- DEBUG: leaving_time type = {{ res.leaving_time.__class__.__name__ if res.leaving_time else 'None' }} -->
+                            <!-- DEBUG: leaving_time length = {{ res.leaving_time|length if res.leaving_time else 0 }} -->
+                            <!-- DEBUG: leaving_time boolean = {{ res.leaving_time is not none and res.leaving_time != '' and res.leaving_time != 'None' }} -->
+                            {% endfor %}
+                        {% else %}
+                            <p class="text-muted">No recent parking history.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

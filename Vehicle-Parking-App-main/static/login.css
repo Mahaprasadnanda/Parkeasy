@@ -1,0 +1,82 @@
+
+        body {
+            background: linear-gradient(to bottom right, #1abc9c, #2980b9);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .login-panel {
+            background: #2c2c2c;
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+        }
+        .login-heading {
+            color: #ffffff;
+            font-size: 1.8rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 1.8rem;
+        }
+        .form-label {
+            color: #d0d0d0;
+            font-size: 0.9rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+        .form-control {
+            background: #3a3a3a;
+            border: 1px solid #4a4a4a;
+            border-radius: 8px;
+            color: #ffffff;
+            padding: 0.7rem;
+            transition: border-color 0.3s ease;
+        }
+        .form-control:focus {
+            border-color: #1abc9c;
+            box-shadow: 0 0 5px rgba(26, 188, 156, 0.3);
+            background: #3a3a3a;
+            color: #ffffff;
+        }
+        .form-control::placeholder {
+            color: #a0a0a0;
+        }
+        .login-btn {
+            background-color: #3498db;
+            border: none;
+            padding: 0.7rem;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 8px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+        .login-btn:hover {
+            background-color: #2a79b8;
+        }
+        .signup-link {
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: #f39c12;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .signup-link:hover {
+            color: #e67e22;
+            text-decoration: underline;
+        }
+        @media (max-width: 576px) {
+            .login-panel {
+                margin: 1rem;
+                padding: 2rem;
+            }
+            .login-heading {
+                font-size: 1.5rem;
+            }
+        }

@@ -1,0 +1,143 @@
+body {
+    background: linear-gradient(to top right, #ff6b6b, #feca57);
+    min-height: 100vh;
+    font-family: 'Lato', sans-serif;
+}
+
+.navbar {
+    background-color: #34495e;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-brand, .nav-link {
+    color: #dfe6e9 !important;
+    font-weight: 500;
+}
+
+.nav-link:hover {
+    color: #feca57 !important;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(223, 230, 233, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+.welcome-section {
+    background-color: #2c3e50;
+    color: #feca57;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.parking-lot-card {
+    border: 1px solid #4a6670;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #34495e;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease;
+}
+
+.parking-lot-card:hover {
+    transform: translateY(-3px);
+}
+
+.parking-lot-card h5 {
+    color: #feca57;
+}
+
+.text-muted {
+    color: #95a5a6 !important;
+}
+
+.slot {
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+    border-radius: 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+}
+
+.slot.available {
+    background-color: #00b894;
+}
+
+.slot.occupied {
+    background-color: #e63946;
+}
+
+.btn-primary {
+    background-color: #0984e3;
+    border-color: #0984e3;
+}
+
+.btn-primary:hover {
+    background-color: #0767b8;
+    border-color: #0767b8;
+}
+
+.btn-warning {
+    background-color: #fdcb6e;
+    border-color: #fdcb6e;
+    color: #2d3436;
+}
+
+.btn-warning:hover {
+    background-color: #e0b452;
+    border-color: #e0b452;
+    color: #2d3436;
+}
+
+.btn-danger {
+    background-color: #e63946;
+    border-color: #e63946;
+}
+
+.btn-danger:hover {
+    background-color: #d62828;
+    border-color: #d62828;
+}
+
+h3 {
+    color: #2d3436;
+    font-weight: 600;
+}
+
+@media (max-width: 576px) {
+    .navbar-brand {
+        font-size: 1rem;
+    }
+
+    .nav-link {
+        font-size: 0.9rem;
+    }
+
+    .welcome-section {
+        padding: 15px;
+    }
+
+    .welcome-section h2 {
+        font-size: 1.5rem;
+    }
+
+    .parking-lot-card {
+        padding: 15px;
+    }
+
+    .slot {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+
+    .btn-primary {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+    }
+}
